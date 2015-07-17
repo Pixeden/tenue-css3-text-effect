@@ -4,8 +4,7 @@ This is a subtle css `text-shadow` based effect inspired by [this](http://www.pi
 
 The effect creates a very elegant and stunning result with a mix of shadows and light. You can use your own text with ease and edit the effect to make it your own.
 
-# [Download](http://www.pixeden.com/html-css/tenue-css3-text-effect)
-# [Demo](http://themes-pixeden.com/playground/text/tenue/)
+## [Download](http://www.pixeden.com/html-css/tenue-css3-text-effect) | [Demo](http://themes-pixeden.com/playground/text/tenue/)
 
 ### Usage and customization:
 Just add the `pe-tenue.css` file to your project and use the `tenue-shadow` class to apply the default effect on each elements according to your needs.
@@ -37,5 +36,7 @@ If you're not familiar with Sass you can still create your own custom version of
 4. Angle calculated to generate the x and y axes.`[default: -133deg]` `[deg]`
 5. Starter color (usually the same or similar as the text `color` value).`[default: #000]` `[valid color value]`
 6. Color to which the shadows blend(usually the same as the `background-color` value) `[default:null]` `[valid color value]`
+
+----
 
 &copy; 2015 [Pixeden](http://www.pixeden.com/) | [License](http://www.pixeden.com/license)
