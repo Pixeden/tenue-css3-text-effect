@@ -2,6 +2,7 @@ var gulp = require('gulp'),
     sass = require('gulp-ruby-sass'),
     autoprefixer = require('gulp-autoprefixer'),
     cssmin = require('gulp-cssmin'),
+    header  = require('gulp-header'),
     jshint = require('gulp-jshint'),
     uglify = require('gulp-uglify'),
     imagemin = require('gulp-imagemin'),
@@ -10,40 +11,32 @@ var gulp = require('gulp'),
     notify = require('gulp-notify'),
     livereload = require('gulp-livereload'),
     del = require('del'),
-
     changed = require('gulp-changed'),
     svgmin = require('gulp-svgmin'),
-    uncss = require('gulp-uncss'),
     jade = require('gulp-jade'),
-    marked = require('marked'),
-    mainBowerFiles = require('main-bower-files'),
-    gulpFilter = require('gulp-filter'),
-
-    fs = require("fs");
+    package = require('./package.json');
 
 
-
-function readWriteAsync(file) {
-  fs.readFile(file, 'utf-8', function(err, data){
-    if (err) throw err;
-
-    var newValue = data.replace(/<\s*p[^>]*>(.*?)<\s*\/\s*p>/g, '<p>Hi, <br>see your <code>dist</code> proyect <a href="dist/index.html">here</a></p>');
-
-    fs.writeFile(file, newValue, 'utf-8', function (err) {
-      if (err) throw err;
-      console.log('index.html proyect rewritten');
-    });
-  });
-}
-
+var banner = [
+  '/* * * * * * * * * * * * * * * * * * * * *\\ \n',
+    ' <%= package.name %> ',
+    'v<%= package.version %> \n ',
+    '<%= package.description %> \n',
+    ' (c) ' + new Date().getFullYear() + ' <%= package.author %> \n',
+    ' <%= package.homepage %> \n',
+  '\\* * * * * * * * * * * * * * * * * * * * */',
+  '\n'
+].join('');
 
 gulp.task('styles', function(){
   return sass('src/styles/', 
               { style: 'expanded' })
+              .pipe(header(banner, { package : package }))
               .pipe(autoprefixer())
               .pipe(gulp.dest('dist/assets/css'))
               .pipe(rename({suffix: '.min'}))
               .pipe(cssmin())
+              .pipe(header(banner, { package : package }))
               .pipe(gulp.dest('dist/assets/css'))
               .pipe(notify({ message: 'Styles task complete!'}));
 });
@@ -66,7 +59,7 @@ gulp.task('images', function(){
               .pipe(imagemin({ 
                 optimizationLevel:3, 
                 progressive: true, 
-                interlaced:true,
+                interlaced: true,
                 svgoPlugins: [{cleanupIDs: false}]
                 }))
               .pipe(gulp.dest('dist/assets/img'))
@@ -81,11 +74,6 @@ gulp.task('templates', function(){
               .pipe(gulp.dest('dist'))
 });
 
-gulp.task('libs', function(){
-  return gulp.src(mainBowerFiles(), { base: 'src/components' })
-          .pipe(gulp.dest('dist/assets/libs'));
-});
-
 gulp.task('clean', function(cb) {
     del(['dist/assets/css', 'dist/assets/js', 'dist/assets/img'], cb)
 });
@@ -95,12 +83,8 @@ gulp.task('copy-fonts', function(){
         .pipe(gulp.dest('dist/assets/fonts/'));
 });
 
-gulp.task('firstIndex', function(){
-  readWriteAsync('index.html');
-});
-
 gulp.task('default', ['clean'], function() {
-    gulp.start('libs', 'templates', 'styles', 'scripts', 'images', 'copy-fonts', 'firstIndex');
+    gulp.start('templates', 'styles', 'scripts', 'images', 'copy-fonts');
 });
 
 gulp.task('watch', function(){

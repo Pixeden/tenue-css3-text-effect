@@ -1,0 +1,105 @@
+
+// Sass Math functions [Required] 
+// in case you don't use Compass
+
+@function pow($number, $exp) {
+  $value: 1;
+  @if $exp > 0 {
+    @for $i from 1 through $exp {
+      $value: $value * $number;
+    }
+  } @else if $exp < 0 {
+    @for $i from 1 through -$exp {
+      $value: $value / $number;
+    }
+  }
+  @return $value;
+}
+
+@function fact($number) {
+  $value: 1;
+  @if $number > 0 {
+    @for $i from 1 through $number {
+      $value: $value * $i;
+    }
+  }
+  @return $value;
+}
+
+@function pi() {
+  @return 3.14159265359;
+}
+
+@function rad($angle) {
+  $unit: unit($angle);
+  $unitless: $angle / ($angle * 0 + 1);
+  // If the angle has 'deg' as unit, convert to radians.
+  @if $unit == deg {
+    $unitless: $unitless / 180 * pi();
+  }
+  @return $unitless;
+}
+
+@function sin($angle) {
+  $sin: 0;
+  $angle: rad($angle);
+  // Iterate a bunch of times.
+  @for $i from 0 through 10 {
+    $sin: $sin + pow(-1, $i) * pow($angle, (2 * $i + 1)) / fact(2 * $i + 1);
+  }
+  @return $sin;
+}
+
+@function cos($angle) {
+  $cos: 0;
+  $angle: rad($angle);
+  // Iterate a bunch of times.
+  @for $i from 0 through 10 {
+    $cos: $cos + pow(-1, $i) * pow($angle, 2 * $i) / fact(2 * $i);
+  }
+  @return $cos;
+}
+
+
+
+
+// Tenue Shadow function
+
+@function tenue-shadow($steps: 70, $ratio: .005, $op: .85, $angle: -133deg, $color: #000, $bg: null){
+  $shadows: ();
+  $n: 0;
+  $b: 0;
+  $steps: if($steps > 128, 128, $steps);
+  
+  @for $i from 1 through $steps {
+    $s: $i*2-1;
+    
+    @if ($i > $steps - 11 and $i < $steps - 3){
+      $b: $b + .4px;
+    } @else if ($i >= $steps - 3) {
+      $b: $b + 1px;
+    } @else {
+      $b: $s * .1px;
+    }
+    
+    // if $bg fade to this color
+    $c: if($bg, 
+          rgba(mix($color, $bg, 100-($i/$steps*100)), $op), 
+          rgba($s, $s, $s, $op)
+        );
+    
+    // if even/odd
+    $n: if($i%2 == 0, $n + 1, $n + 2);
+    
+    // do shadows
+    $shadows: append( 
+      $shadows, 
+        // $n * $radio * -1em  $i * $radio * -1em 
+        sin($angle) * ($n * $ratio * 1em) cos($angle) * ($i * $ratio * 1em)
+        $b 
+        $c, 
+        'comma');
+  }
+  
+  @return $shadows;
+}

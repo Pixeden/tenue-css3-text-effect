@@ -1,12 +1,14 @@
-# Starting project templatez
+# Tenue CSS
+### Pixeden Playground
 
-First, clone the repository. 'MyTemplate' is the name you want for the folder.
+A little CSS text experiment by [Pixeden](http://www.pixeden.com/)
 
-    git clone https://github.com/elrumordelaluz/template-init.git MyTemplate
+How to use:
+    
+    // CSS
+    // Sass
 
 Then:
 
-    sudo npm install
     bower install
-    gulp
 

@@ -1,0 +1,71 @@
+// Objects
+
+.tenue-shadow {
+  /* Basic text style (optionals but recommended) */
+  font-family: $font-family;
+  font-weight: 100;
+
+  color: #1e1e1e;
+
+  /* Tenue shadow (required) */
+
+  // tenue-shadow
+  // ============
+  // [1] text-shadow steps (>128 automatically sets to 128) [default: 111] [unitless]
+  // [2] little magic fraction to control space between shadow steps [default: .005] [unitless]
+  // [3] opacity applied to each shadow step [default: .85] [unitless]
+  // [4] angle calculated to text-shadow x and y axes [default: -133deg] [deg]
+  // [5] starter color (usually the same as text `color` value or similar) [default: #000] [valid color value]
+  // [6] color which blend the shadows (uaually the same as `background-color` value) [default:null] [valid color value]
+  
+  text-shadow: tenue-shadow(
+                    $steps: 70,      // [1]
+                    $ratio: .0034,    // [2]
+                    $op: .75,         // [3]
+                    $angle: -133deg,  // [4]
+                    $color: $color,   // [5]
+                    $bg: $bg          // [6]
+                    );
+  
+  /* You could add: */
+  mix-blend-mode: multiply;
+}
+
+.tenue-extras {
+  font-size: $font-size;
+  letter-spacing: .34em;
+  line-height: 1;
+  margin-bottom: .2em;
+  margin-top: 0;
+  overflow: hidden;
+  padding-bottom: .5em;
+  padding-left: .85em;
+  padding-top: 1em;
+  position: relative;
+  text-align: center;
+  text-transform: uppercase;
+  word-wrap: break-word;
+  
+  sub, 
+  sup { position: relative; }
+  
+  @media (min-width: 768px) {
+    sub:nth-of-type(1) { top: -.34em;}
+    sub:nth-of-type(3) { top: -.07em;}
+    sup:last-of-type { top: .25em;}
+  }
+
+}
+
+.tenue-overlay {
+  background-image: linear-gradient(to bottom, rgba(255, 0, 0, 0) 0%, rgb(255, 0, 221) 13%, rgba(255, 0, 255, .84) 15%, rgba(111, 0, 255, 0) 25%, rgba(0, 0, 255, .63) 33%, rgb(0, 74, 255) 38%, rgba(0, 255, 255, .05) 49%, rgba(0, 255, 246, 0) 50%, rgb(0, 255, 55) 63%, rgba(0, 255, 0, .65) 67%, rgba(109, 255, 0, 0) 74%, rgba(255, 255, 0, .8) 84%, rgb(255, 215, 0) 86%, rgba(255, 0, 0, 0) 100%);
+  background-repeat: no-repeat;
+  background-size: auto 200%;
+  height: 100%;
+  left: 0;
+  mix-blend-mode: overlay;
+  opacity: .2;
+  position: absolute;
+  top: 0;
+  width: 100%;
+}
